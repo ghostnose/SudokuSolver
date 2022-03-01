@@ -1,0 +1,1 @@
+File badformat.txt is formatted incorrectly on line 1. Column 2 is invalid value Y
