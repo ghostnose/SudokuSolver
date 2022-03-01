@@ -3,6 +3,14 @@ package ian.phillip.norton.sudoku.board;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This defines a 2D grid of the given type T.  It allows access to the rows,
+ * columns, and also subgrids
+ * 
+ * @author Ian Norton
+ *
+ * @param <T> The type to place in the grid
+ */
 public class Grid<T> {
 	protected List<List<T>> gridData;
 	protected Integer width = null;

@@ -10,6 +10,12 @@ import ian.phillip.norton.sudoku.board.StandardSudokuBoard;
 import ian.phillip.norton.sudoku.board.SudokuBoard;
 import ian.phillip.norton.sudoku.exceptions.InvalidBoardTypeException;
 
+/**
+ * Solves standard 9x9 sudoku boards
+ * 
+ * @author Ian Norton
+ *
+ */
 public class StandardSudokuSolver implements SudokuSolver {
 	private Set<Integer> possibleValues;
 	
@@ -19,6 +25,27 @@ public class StandardSudokuSolver implements SudokuSolver {
 		possibleValues.addAll(Arrays.asList(valueList));
 	}
 	
+	/**
+	 * Attempts to solve the board.  Will throw an exception if the board
+	 * is not a type this solver handles
+	 * 
+	 * @return the solved sudoku board or null if no solution exists
+	 */
+	@Override
+	public SudokuBoard solve(SudokuBoard board) throws InvalidBoardTypeException {
+		if (board instanceof StandardSudokuBoard) {
+			return this.solve((StandardSudokuBoard) board);
+		} else {
+			throw new InvalidBoardTypeException("Solver only handles standard boards");
+		}
+	}
+	
+	/**
+	 * Attempts to solve the given standard sudoku board.
+	 * 
+	 * @param board the board to solve
+	 * @return the solved sudoku board or null if no solution exists
+	 */
 	public StandardSudokuBoard solve(StandardSudokuBoard board) {
 		return this.solveRecursive(board, this.getRowsNeed(board), this.getColumnsNeed(board), this.getSubgridsNeed(board));
 	}
@@ -126,6 +153,19 @@ public class StandardSudokuSolver implements SudokuSolver {
 		return solved;
 	}
 	
+	/**
+	 * Sets the value and also updates what values are needed in the corrsponding
+	 * row, column, and subgrid
+	 * 
+	 * @param board
+	 * @param row
+	 * @param column
+	 * @param subgrid
+	 * @param value
+	 * @param rowsNeed
+	 * @param columnsNeed
+	 * @param subgridsNeed
+	 */
 	private void setValue(StandardSudokuBoard board, int row, int column, int subgrid, Integer value,
 			List<Set<Integer>> rowsNeed, List<Set<Integer>> columnsNeed, List<Set<Integer>> subgridsNeed) {
 		rowsNeed.get(row).remove(value);
@@ -134,6 +174,11 @@ public class StandardSudokuSolver implements SudokuSolver {
 		board.setValue(row, column, value);
 	}
 	
+	/**
+	 * Returns sets of what values are missing for each column
+	 * @param board
+	 * @return
+	 */
 	private List<Set<Integer>> getColumnsNeed(StandardSudokuBoard board) {
 		List<Set<Integer>> need = new ArrayList<Set<Integer>>();
 		
@@ -146,6 +191,11 @@ public class StandardSudokuSolver implements SudokuSolver {
 		return need;
 	}
 	
+	/**
+	 * Returns sets of what values are missing for each row
+	 * @param board
+	 * @return
+	 */
 	private List<Set<Integer>> getRowsNeed(StandardSudokuBoard board) {
 		List<Set<Integer>> need = new ArrayList<Set<Integer>>();
 		
@@ -158,6 +208,11 @@ public class StandardSudokuSolver implements SudokuSolver {
 		return need;
 	}
 	
+	/**
+	 * Returns sets of what values are missing for each subgrid
+	 * @param board
+	 * @return
+	 */
 	private List<Set<Integer>> getSubgridsNeed(StandardSudokuBoard board) {
 		List<Set<Integer>> need = new ArrayList<Set<Integer>>();
 		
@@ -168,14 +223,5 @@ public class StandardSudokuSolver implements SudokuSolver {
 		}
 		
 		return need;
-	}
-
-	@Override
-	public SudokuBoard solve(SudokuBoard board) throws InvalidBoardTypeException {
-		if (board instanceof StandardSudokuBoard) {
-			return this.solve((StandardSudokuBoard) board);
-		} else {
-			throw new InvalidBoardTypeException("Solver only handles standard boards");
-		}
 	}
 }

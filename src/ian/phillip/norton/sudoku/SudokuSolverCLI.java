@@ -32,6 +32,13 @@ public class SudokuSolverCLI {
 		filesToParse = Arrays.asList(puzzleFiles);
 	}
 	
+	/**
+	 * For each file to process
+	 *  - Load the board from the file
+	 *  - attempt to solve it
+	 *  - output the solution or an appropriate message
+	 * 
+	 */
 	public void processFiles() {
 		for (File file : this.filesToParse) {
 			StandardSudokuBoard board = null;
